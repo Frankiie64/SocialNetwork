@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using RedSocial.Core.Application.Helper;
+@using RedSocial.Core.Application.ViewModels.User;
+@inject IHttpContextAccessor httpContext;
+@{
+    UserVM user = httpContext.HttpContext.Session.Get<UserVM>("user");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApp.RedSocial</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/67cf9a17fd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-home">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark fw-bolder bg-navar border-bottom box-shadow mb-3">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">                                              
+                        @if (user != null)
+
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Friends" asp-action="Index">Amigos</a>
+                            </li>
+                            <li class="nav-item justify-content-end">
+                                <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Logout">Cerrar sesion</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted bg-footer">
+        <div class="container text-center fw-bolder text-dark">
+            &copy; @DateTime.Now.Year - Social Network - <a class="text-decoration-none text-dark" href=" https://github.com/Frankiie64">Franklyn Brea</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

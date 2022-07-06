@@ -1,0 +1,72 @@
+﻿@using RedSocial.Core.Application.ViewModels.User;
+@model SaveUserVM;
+
+@{
+    ViewData["Title"] = "Registrarse";
+
+}
+
+<div class="row  rounded bg-white ps-3 pe-0 pb-3 pt-3 mt-5">
+    <h2 class="fw-bolder py-3">Crear cuenta</h2>
+    <form method="post" asp-controller="User" asp-action="Register" enctype="multipart/form-data">
+        <div class="col-8 mx-auto gap-4 text-center ">
+            <div class="d-flex gap-3 justify-content-between">
+                <div class="mb-2 form-group">
+                    <label asp-for="FirstName" class="form-label">Nombre</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-2 form-group">
+                    <label asp-for="LastName" class="form-label">Apellido</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="mb-2 form-group">
+                    <label asp-for="Phone" class="form-label">Telefono</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-flex gap-3 justify-content-between">
+                <div class="mb-2 form-group">
+                    <label asp-for="Email" class="form-label">Correo</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-2 form-group">
+                    <label asp-for="File" class="form-label">Foto de perfil</label>
+                    <input required asp-for="File" class="form-control form-control-sm" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+                <div class="mb-2 form-group">
+                    <label asp-for="Username" class="form-label">Nombre de usuario</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                    @if (Model.validateUser)
+                    {
+                        <span>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                    }
+                </div>
+            </div>
+            <div class="d-flex mb-4 form-group">
+                <div class="w-50 me-4 ">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="w-50 me-4 ">
+                    <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="w-50 mt-4 pt-2">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="">
+            <u><a class="text-decoration-none border-0 bg-white fw-bolder text-dark" asp-controller="User" asp-action="Index" type="button"> Ya tengo una cuenta.</a></u>
+        </div>
+    </form>
+</div>

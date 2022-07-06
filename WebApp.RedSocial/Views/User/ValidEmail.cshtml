@@ -1,0 +1,19 @@
+﻿@using RedSocial.Core.Application.ViewModels.User;
+@model SaveUserVM;
+@{
+    ViewData["Title"] = "Confrimar Email";
+
+}
+
+<div class="row m-3 p-2 mx-auto">
+    <div class="col text-center offset-3">
+        <div class="col-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tu cuenta ya ha sido activada</h5>
+                    <a asp-controller="User" asp-action="Index" class="text-decoration-none  fw-bolder text-dark text-decoration-underline">Ir al login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

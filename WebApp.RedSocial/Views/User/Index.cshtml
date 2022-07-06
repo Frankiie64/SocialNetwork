@@ -1,0 +1,41 @@
+﻿@using RedSocial.Core.Application.ViewModels.User;
+@model LoginVM;
+
+@{
+    ViewData["Title"] = "inicio de sesion";
+
+}
+<div class="container-fluid w-75 rounded bg-white">
+    <div class="row align-items-stretch ">
+        <div class="col bgP d-none d-lg-block col-md-6 rounded"></div>
+        <div class="col p-4 rounded-end">
+            <h2 class="fw-bold text-center pt-5 mb-3">Bienvenido</h2>
+            <form method="post" asp-controller="User" asp-action="Index">
+                <div class="mb-4">
+                    <label asp-for="Username" class="form-label">Nombre de usuario</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                @if (Model.validate)
+                {
+                    <div class="mb-3 col-8 offset-2 text-center">
+                        <span>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                    </div>
+                }
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+                </div>
+                <div class="my-3">
+                    <span>Todavia no tienes cuenta ? <a class="text-decoration-none border-0 bg-white fw-bolder" asp-controller="User" asp-action="Register"> Registrate aqui</a></span>
+                    <br />
+                    <span><a asp-controller="User" asp-action="ForgetPass" type="button">Olvide mi contraseña</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

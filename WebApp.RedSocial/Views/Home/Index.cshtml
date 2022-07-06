@@ -1,0 +1,146 @@
+﻿@using RedSocial.Core.Application.ViewModels.Publication;
+@model List<PublicationVM>;
+@{
+    ViewData["Title"] = "Home";
+}
+
+<button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <i class=" fs-5 pb-3 fa-plus"></i> Nueva publicacion
+</button>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10 m-3 mt-2 mx-auto">
+            @foreach (var item in Model)
+            {
+                <div class="mx-auto col-8 mt-2 mb-3">
+                    <div class="card bg-dark m-1">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="@item.Owner.UrlPhoto" class="mt-2 border border-light rounded-circle shadow" style="width: 100%;">
+                                    </div>
+                                    <div class="col-10">
+                                        <p class="text-white">
+                                            @item.Owner.FirstName @item.Owner.LastName
+                                            <br>
+                                            <span class="text-white-50 ms-auto">@item.Owner.Username</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="text-light">
+                                            @item.Creadted
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (string.IsNullOrWhiteSpace(item.UrlPhoto))
+                            {
+                                <span class="card-text text-white ms-2">@item.Title</span>
+                            }
+                            else
+                            {
+                                <img src="@item.UrlPhoto" class="img-fluid w-100 h-50">
+                                <hr />
+                                <span class="card-text text-white">@item.Title</span>
+                            }
+                        </div>
+                        <div class=" card-footer gap-3">
+                            <div class="d-flex">
+                                <div class="col-6">
+                                    <a class="btn btn-secondary btn-sm" asp-controller="Comment" asp-action="Index" asp-route-id="@item.id">Ver comentarios</a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <button type="button" class="btn btn-warning btn-sm " data-bs-toggle="modal" data-bs-target="#edit">Editar publicacion</button>
+                                    <div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Crear una nueva publicacion</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form method="post" asp-controller="Home" asp-action="EditPublication" enctype="multipart/form-data">
+                                                    <div class="modal-body" id="modaBodyPublication">
+                                                        <div class="form-group text-start">
+                                                            <label for="Title" class="form-label">Escribe algo...</label>
+                                                            <textarea required name="Title" class="form-control form-control-sm">@item.Title</textarea>
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="form-group mt-1 text-start">
+                                                            <label for="File" class="form-label">Foto de perfil</label>
+                                                            <input name="File" type="file" class="form-control form-control-sm" />
+                                                            <span></span>
+                                                        </div>
+                                                        <input hidden name="id" value="@item.id" />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Editar publicacion</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#delete">Eliminar publicacion</button>
+                                    <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Eliminar la publicacion</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form method="post" asp-controller="Home" asp-action="DeletePublication">
+                                                    <input hidden name="id" value="@item.id" />
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-danger">Eliminar publicacion</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear una nueva publicacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-controller="Home" asp-action="CreatePublication" enctype="multipart/form-data">
+                <div class="modal-body" id="modaBodyPublication">
+                    <div class="form-group text-start">
+                        <label for="Title" class="form-label">Escribe algo...</label>
+                        <textarea required name="Title" class="form-control form-control-sm"></textarea>
+                        <span></span>
+                    </div>
+                    <div class="form-group mt-1 text-start">
+                        <label for="File" class="form-label">Foto de perfil</label>
+                        <input name="File" type="file" class="form-control form-control-sm" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Crear publicacion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

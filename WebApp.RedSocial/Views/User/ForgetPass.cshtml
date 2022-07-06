@@ -1,0 +1,39 @@
+﻿@using RedSocial.Core.Application.ViewModels.User;
+@model ForgetPassVM;
+@{
+    ViewData["Title"] = "Recuperar contraseña";
+
+}
+<div class="row mx-auto mt-5 mx-a p-3">
+    <div class="col-12">
+        <div class="card w-100">
+            <div class="card-header p-2 mt-3 ms-3">
+                <h2 class="card-title">Recuperar contraseña</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="User" asp-action="ForgetPass">
+                    <div class=" input-group mb-3">
+                        <input required name="Username" class="form-control" placeholder="Escriba el nombre de su usuario" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Buscar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6">
+                        @if (Model.validateUser)
+                        {
+                            <span>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                        }
+                        else
+                        {
+                            <span>@Html.ValidationSummary(false, "", new { @class = "text-dark" })</span>
+                        }
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-controller="User" asp-action="Index" type="button" class="btn btn-warning btn-sm fw-bolder text-end">Volver al login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

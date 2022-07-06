@@ -1,0 +1,145 @@
+﻿@using RedSocial.Core.Application.ViewModels.Publication;
+@using RedSocial.Core.Application.ViewModels.Comments;
+@model PublicationVM;
+@{
+    ViewData["Title"] = "Añadir comentario";
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10 m-3 mt-2 mx-auto">
+            <div class="mx-auto col-8 mt-2 mb-3">
+                <div class="card bg-dark m-1">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="@Model.Owner.UrlPhoto" class="mt-2 border border-light rounded-circle shadow" style="width: 100%;">
+                                </div>
+                                <div class="col-10">
+                                    <p class="text-white">
+                                        @Model.Owner.FirstName @Model.Owner.LastName
+                                        <br>
+                                        <span class="text-white-50 ms-auto">@Model.Owner.Username</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <span class="text-light">
+                                        @Model.Creadted
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        @if (string.IsNullOrWhiteSpace(Model.UrlPhoto))
+                        {
+                            <span class="card-text text-white ms-2">@Model.Title</span>
+                        }
+                        else
+                        {
+                            <img src="@Model.UrlPhoto" class="img-fluid w-100 h-50">
+                            <hr />
+                            <span class="card-text text-white">@Model.Title</span>
+                        }
+                    </div>
+                    <div class=" card-footer gap-3">
+                        <button type="button" class="btn btn-secondary btn-sm " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Agregar comentario
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.Coments.Count != 0)
+    {
+        @foreach (CommentVM item in Model.Coments)
+        {
+            <div class="row">
+                <div class="col-10 m-3 mt-2 mx-auto">
+                    <div class="mx-auto col-8 mt-2 mb-3">
+                        <div class="card bg-dark m-1">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="@item.Owner.UrlPhoto" class="mt-2 border border-light rounded-circle shadow" style="width: 100%;">
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="text-white">
+                                                @item.Owner.FirstName @item.Owner.LastName
+                                                <br>
+                                                <span class="text-white-50 ms-auto">@item.Owner.Username</span>
+                                            </p>
+                                            <p class="text-white">
+                                                <span class="card-text text-white">@item.comment</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="text-light">
+                                                @item.Publication.Creadted
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-10 m-3 mt-2 mx-auto">
+                <div class="mx-auto col-8 mt-2 mb-3">
+                    <div class="card bg-dark m-1">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="row">
+                                    <p class="text-light"><span>No hay comentarios </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+  </div>
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Crear una nueva publicacion</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" asp-controller="Comment" asp-action="AddComent" enctype="multipart/form-data">
+                                                <div class="modal-body" id="modaBodyPublication">
+                                                    <div class="form-group text-start">
+                                                        <label for="Title" class="form-label">Que esta pasando??</label>
+                                                        <textarea required name="comment" class="form-control form-control-sm"></textarea>
+                                                        <span></span>
+
+                                                        <input hidden name="PublicationId" value="@Model.id" />
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-success">Enviar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+

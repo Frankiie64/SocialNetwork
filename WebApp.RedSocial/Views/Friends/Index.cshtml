@@ -1,0 +1,143 @@
+﻿@using RedSocial.Core.Application.ViewModels.Friend;
+@using RedSocial.Core.Application.ViewModels.Publication;
+@model List<FriendVM>;
+
+@{
+    ViewData["Title"] = "Amigos";
+
+}
+
+
+<div class="row w-50 m-3 form-group">
+    <div class="col-8  gap-3 d-flex text-end">
+        <button type="button" class="btn btn-primary  " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class=" fs-5 pb-3 fa-plus"></i> Agregar amigo
+        </button>
+        @if (!string.IsNullOrWhiteSpace(ViewData["ModelError"].ToString()))
+        {
+            <span class="text-danger">@Html.ViewData["ModelError"]</span>
+        }
+    </div>
+</div>
+
+@if (Model.Count == 0 || Model == null)
+{
+    <h2>Noy hay publicaciones</h2>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+                @foreach (FriendVM item in Model)
+                {
+                    foreach (PublicationVM list in item.ListPublicationFriend)
+                    {
+
+                        <div class="mx-auto col-12 mt-2 mb-3">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <img src="@item.friend.UrlPhoto" class="mt-2 border border-light rounded-circle shadow" style="width: 100%;">
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-white">
+                                                    @item.friend.FirstName @item.friend.LastName
+                                                    <br>
+                                                    <span class="text-white-50 ms-auto">@item.friend.Username</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="text-light">
+                                                    @list.Creadted
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <img src="@list.UrlPhoto" class="img-fluid w-100 h-50">
+                                    <hr />
+                                    <span class="card-text text-white">@list.Title</span>
+                                </div>
+                                <div class=" card-footer gap-3">
+                                    <div class="d-flex">
+                                        <div class="col-6">
+                                            <a class="btn btn-secondary btn-sm" asp-controller="Comment" asp-action="Index" asp-route-id="@list.id">Ver comentarios</a>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              </div>
+                                }
+                                }
+                            </div>
+            <div class="col-4">
+                <h5>Mis Amigos</h5>
+                @foreach (FriendVM item in Model)
+                {
+                    <div class=" col-12 mt-2 mb-3">
+                        <div class="card bg-dark">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="@item.friend.UrlPhoto" class="mt-2 border border-light rounded-circle shadow" style="width: 150%;">
+                                        </div>
+                                        <div class="col-10">
+                                            <span class="text-white">
+                                                @item.friend.FirstName @item.friend.LastName
+                                                <br>
+                                                <span class="text-white-50 ms-auto">@item.friend.Username</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <form asp-controller="Friends" asp-action="delete">
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                <input hidden name="id" value="@item.Id" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear una nueva publicacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-controller="Friends" asp-action="AddFriend" enctype="multipart/form-data">
+                <div class="modal-body" id="modaBodyPublication">
+                    <div class="form-group text-start">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Nombre de usuario</label>
+                            <input name="Username" required type="text" class="form-control" id="exampleFormControlInput1">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Agregar amigos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
